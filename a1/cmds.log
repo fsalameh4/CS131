@@ -1,0 +1,50 @@
+Section A
+
+1. cd CS131
+   mkdir a1
+   cd a1
+
+2. pwd
+
+3. id
+
+4. cd ~
+   cd /proc/
+   ls
+
+5. head meminfo
+ 
+6. cat cpuinfo
+   head cpuinfo
+   tail cpuinfo
+ 
+7. cd ~
+   cd /etc/
+   ls
+   cat os-release
+
+Section B
+
+8. cp /datasets/taxidata.tar.gz .
+   tar -xvzf taxidata.tar.gz
+   ls
+   grep "2019-05-12" 2019-05.csv > 12may2019.csv
+   cut -d ',' -f 17 12may2019.csv > totalamont.txt
+   cat totalamount.txt | paste -sd+ - | bc
+   wc -l totalamount.txt
+   bc
+   4268840.09/228706
+
+9. sort -nr totalamount.txt > sortedtotal.txt
+   head sortedtotal.txt
+
+10. cut -d ',' -f4,9 2019-05.csv > q10data.csv
+    sort -n q10data.csv > sortedq10.csv
+    grep '^*[3-9]\.0' sortedq10.csv > over3.csv
+    sort -n over3.csv > sortedover3.csv
+    cut -d ',' -f2 sortedover3.csv > locations.txt
+    sort -n locations.csv > sortedlocations.txt
+    uniq -c sortedlocations.txt > uniqlocations.txt
+    sort -n uniqlocations.txt > sorteduniqlocations.txt
+    tail sorteduniqlocations.txt
+

@@ -1,0 +1,36 @@
+Section A
+
+1. directory name : a1
+
+2. /mnt/scratch/fatemasu24/CS131/a1
+
+3. uid=1264(fatemasu24)
+
+4. memory file: /proc/meminfo
+   CPU file : /proc/cpuinfo
+
+5. MemTotal:  73080640 kB
+
+6. Total processors : 256
+   Processor architecture name : POWER8
+   Processor Speed : 3.425 GHz
+  
+7. OS Version : 8.6 (Ootpa)
+   file : os-release
+
+Section B
+
+8. The Average amount paied : 18.67
+
+9. Highest amount paied in May 12, 2019 : 460.04
+
+10. a)location id: 236.0
+    b)location id: 237.0  
+    c)location id: 161.0
+    d)location id: 230.0
+    e)location id: 170.0
+    f)location id: 162.0
+    g)location id: 48.0
+    h)location id: 142.0
+    i)location id: 239.0
+    j)location id: 234.0
