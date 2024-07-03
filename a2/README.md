@@ -17,8 +17,8 @@
 ## How to use the command:
 
 #### To use this command the user will first need
-#### 1. file called filelist (format: filename,YYYY-MM-DD)
-#### Run this command in the same directory where the files exist
+#### 1. File called filelist (format: filename,YYYY-MM-DD)
+#### 2. Run this command in the same directory where the files exist
 
 
 
