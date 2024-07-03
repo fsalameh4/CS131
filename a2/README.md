@@ -37,7 +37,7 @@
 
 
 ## Step 2:
-### [fatemasu24@sjsu samplefiles]$ ~/files/samplefiles/test
+### [fatemasu24@sjsu samplefiles]$ ~/files/samplefiles/Due
 
 ### Moved 'file1' to '/mnt/scratch/fatemasu24/Due'.
 
