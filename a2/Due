@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#This program checks a list of files and their due dates and sends the file which are due to a new directory for easier access
+
+todays_date=$( date '+%F' )
+OverDue=$(date -d "$todays_date - 7 days" +%Y-%m-%d)
+NextDue=$(date -d "$todays_date + 7 days" +%Y-%m-%d)
+
+# Create destination directory if not present, checks first.
+dest_dir="$HOME/Due"
+mkdir -p "$dest_dir"
+
+# Extract files with due dates within the specified range based on filesdue.txt
+awk -F ',' -v start_date="$OverDue" -v end_date="$NextDue" \
+'$2 >= start_date && $2 <= end_date' filelist | cut -d ',' -f 1 > FilesDue.txt
+
+# Check if the FilesDue.txt is there / and not empty at all
+if [ ! -s FilesDue.txt ]; then
+  echo "No files are due within the specified range."
+  exit 1
+fi
+
+# Checking each file being there and moving to new directory
+while IFS= read -r file; do
+  if [ -e "$file" ]; then
+    mv "$file" "$dest_dir"
+    echo "Moved '$file' to '$dest_dir'."
+  else
+    echo "File '$file' does not exist."
+  fi
+done < FilesDue.txt
+
+# Clean up
+rm FilesDue.txt
