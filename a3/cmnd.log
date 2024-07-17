@@ -1,0 +1,26 @@
+Q0) 
+
+cat /etc/passwd
+
+Q1)
+
+sed -n '/^1\.0,/p' 2019-10.csv > vendor2.csv
+wc vendor2.csv
+
+Q2)
+
+sed 's/[:"-]//g' 2019-10.csv > no-separators.csv
+head -10 no-separators.csv
+
+Q3)
+
+sed 's/\.[0-9]*//g' no-separators.csv > no-fractions.csv
+head -10 no-fractions.csv
+
+Q4)
+
+awk -F, '$17 >= 10 {tip_amount[$14]++} END {for (i in tip_amount) print i, tip_amount[i]}' 2019-10.csv > results.txt
+
+Q5)
+
+sort -k2,2nr results.txt | head -5
