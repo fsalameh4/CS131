@@ -1,0 +1,82 @@
+Q0: Prep
+
+pip install ucimlrepo
+
+from ucimlrepo import fetch_ucirepo
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+
+Q1:
+
+white_wine_df = pd.read_csv('/content/winequality-white.csv', delimiter = ';')
+white_wine_df.describe()
+
+
+Q2:
+
+correlation_matrix = white_wine_df.corr()
+correlation_matrix
+
+
+Q3:
+
+ax = (white_wine_df['quality']).plot.hist()
+ax.set_xlabel('Quality')
+ax.set_title('White Wine Quality')
+
+
+Q4:
+
+scaler = StandardScaler()
+scaled_df = pd.DataFrame(scaler.fit_transform(white_wine_df), columns=white_wine_df.columns) 
+plt.figure(figsize=(20, 10))
+sns.violinplot(data=scaled_df, inner="quartile", density_norm="width")
+
+
+Q5:
+
+# X = Alcohol and Y = Quality
+#sklearn: ML package
+model1 = LinearRegression()
+#training X and Y
+model1.fit(white_wine_df[['alcohol']], white_wine_df['quality'])
+
+plt.scatter(white_wine_df['alcohol'], white_wine_df['quality'])
+plt.title(f'Scatter plot of Alcohol vs Quality')
+plt.plot(white_wine_df['alcohol'], model1.coef_[0]*white_wine_df['alcohol'] + model1.intercept_)
+
+print(f'Intercept = {model1.intercept_}')
+print(f'Coeffecient = {model1.coef_[0]}')
+
+fitted1 = model1.predict(white_wine_df[['alcohol']])
+
+RMSE1 = np.sqrt(mean_squared_error(white_wine_df['quality'], fitted1))
+r2_1 = r2_score(white_wine_df['quality'], fitted1)
+
+print(f'RMSE = {RMSE1} and r2 = {r2_1}')
+
+
+Q6:
+
+# X = Volatile acidity, Alcohol, and Density Y = Quality
+
+model2 = LinearRegression()
+model2.fit(white_wine_df[['alcohol', 'volatile acidity', 'density']], white_wine_df['quality'])
+
+print(f'Intercept = {model2.intercept_}')
+print(f'Coeffecient = {model2.coef_[0]}')
+
+
+fitted2 = model2.predict(white_wine_df[['alcohol', 'volatile acidity', 'density']])
+
+RMSE2 = np.sqrt(mean_squared_error(white_wine_df['quality'], fitted2))
+r2_2 = r2_score(white_wine_df['quality'], fitted2)
+
+print(f'RMSE = {RMSE2} and r2 = {r2_2}')
