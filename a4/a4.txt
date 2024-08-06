@@ -38,6 +38,7 @@ scaler = StandardScaler()
 scaled_df = pd.DataFrame(scaler.fit_transform(white_wine_df), columns=white_wine_df.columns) 
 plt.figure(figsize=(20, 10))
 sns.violinplot(data=scaled_df, inner="quartile", density_norm="width")
+plt.title(f'Violin plots of all features')
 
 
 Q5:
