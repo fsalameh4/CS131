@@ -1,0 +1,99 @@
+Task1: Prep
+
+pip install ucimlrepo
+
+from ucimlrepo import fetch_ucirepo
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+
+Task2: Data Retrieval
+
+alzheimers_df = pd.read_csv('/content/alzheimers_disease_data.csv', delimiter = ',')
+
+AD_MedicalHistory_df = alzheimers_df[['Smoking', 'FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression',
+                                      'HeadInjury', 'Hypertension', 'Diagnosis']]
+
+
+Task3: Collect metadata of the dataset
+
+# Medical History : FamilyHistoryAlzheimers, CardiovascularDisease, Diabetes, Depression, HeadInjury, and Hypertension
+# Life Style : Smoking
+# Diagnosis Information : Diagnosis
+
+AD_MedicalHistory_df.describe()
+
+
+Task4: Extract "nontrivial" information from the dataset. 
+
+MedicalHistory_correlation_matrix = AD_MedicalHistory_df.corr()
+MedicalHistory_correlation_matrix
+
+
+count = AD_MedicalHistory_df['Diagnosis'].value_counts()[1]
+print(f'of the 2149 Participants of this study, {count} with confirmed AD dignosis')
+
+
+
+X = Smoking, Y = Diagnosis
+model1 = LinearRegression()
+#training X and Y
+model1.fit(AD_MedicalHistory_df[['Smoking']], AD_MedicalHistory_df['Diagnosis'])
+
+print(f'Intercept = {model1.intercept_}')
+print(f'Coeffecient = {model1.coef_[0]}')
+
+fitted1 = model1.predict(AD_MedicalHistory_df[['Smoking']])
+
+RMSE1 = np.sqrt(mean_squared_error(AD_MedicalHistory_df['Diagnosis'], fitted1))
+r2_1 = r2_score(AD_MedicalHistory_df['Diagnosis'], fitted1)
+
+print(f'RMSE = {RMSE1} and r2 = {r2_1}')
+
+
+
+X = FamilyHistoryAlzheimers, CardiovascularDisease, Diabetes, Depression, HeadInjury,and  Hypertension, Y = Diagnosis
+model2 = LinearRegression()
+model2.fit(AD_MedicalHistory_df[['FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression', 'HeadInjury', 'Hypertension']],
+           AD_MedicalHistory_df['Diagnosis'])
+
+
+print(f'Intercept = {model2.intercept_}')
+print(f'Coeffecient = {model2.coef_[0]}')
+
+
+fitted2 = model2.predict(AD_MedicalHistory_df[['FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression', 'HeadInjury', 'Hypertension']])
+
+RMSE2 = np.sqrt(mean_squared_error(AD_MedicalHistory_df['Diagnosis'], fitted2))
+r2_2 = r2_score(AD_MedicalHistory_df['Diagnosis'], fitted2)
+
+print(f'RMSE = {RMSE2} and r2 = {r2_2}')
+
+
+Task5: Visualize the dataset
+
+scaler = StandardScaler()
+scaled_df = pd.DataFrame(scaler.fit_transform(AD_MedicalHistory_df), columns=AD_MedicalHistory_df.columns)
+plt.figure(figsize=(25, 10))
+sns.violinplot(data=scaled_df, inner="quartile", density_norm="width")
+plt.title(f'Violin plots of features and Diagnosis')
+
+
+count = AD_MedicalHistory_df['Diagnosis'].value_counts()[1]
+print(f'of the 2149 Participants of this study, {count} with confirmed AD dignosis')
+
+
+AD_sub3_df = AD_MedicalHistory_df.loc[(AD_MedicalHistory_df['Diagnosis'] == 1)]
+AD_sub4_df = AD_sub3_df.drop(columns = 'Diagnosis')
+
+count_of_ones = AD_sub4_df.apply(lambda x: (x == 1).sum())
+plt.figure(figsize=(10, 7))  # Optional: set the size of the figure
+plt.pie(count_of_ones, labels=count_of_ones.index, autopct='%1.1f%%', startangle=140)
+plt.title('Percent of AD Diagnosis Per Feature')
+plt.show()
